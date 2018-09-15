@@ -59,6 +59,10 @@ def extract(folderName) :
             outfile.addPage(infile.getPage(0))
         else :
             outfile.addPage(infile.getPage(0))
+
+    with open(os.path.join(savePath,fileName + '.pdf'), 'wb') as f :
+        outfile.write(f)
+
     try : 
         shutil.rmtree(mainPath)
     except :
@@ -73,7 +77,7 @@ if __name__ == '__main__' :
         pass
     file_path = os.path.join(os.getcwd(), 'pdf files/ic.pdf')
     split_pdf(file_path)
-    extract('IC')
+    extract('invigilators')
 
 
 
