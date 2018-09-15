@@ -1,6 +1,8 @@
-import textract, re
+import textract
+import re
+import shutil
+import os
 from PyPDF2 import PdfFileReader, PdfFileWriter
-import shutil, os
 
 
 def split_pdf(file_path):
@@ -44,11 +46,15 @@ def extract(folderName) :
         if ("BIRLA" in txt) :
             count += 1
             try : 
-                with open(os.path.join(savePath,str(count) + '.pdf'), 'wb') as f :
-                    outfile.write(f)
+                if (count != 0) :
+                    with open(os.path.join(savePath,fileName + '.pdf'), 'wb') as f :
+                        outfile.write(f)
+                else :
+                    pass
             except :
-                pass
+                os.remove(os.path.join(savePath,fileName + '.pdf'))
 
+            fileName = txt[txt.find('Ms.') + 4 : txt.find('\n', txt.find('Ms.'))]
             outfile = PdfFileWriter()
             outfile.addPage(infile.getPage(0))
         else :
@@ -65,9 +71,9 @@ if __name__ == '__main__' :
         os.mkdir("Pages")
     except : 
         pass
-    file_path = os.path.join(os.getcwd(), 'pdf files/invig.pdf')
+    file_path = os.path.join(os.getcwd(), 'pdf files/ic.pdf')
     split_pdf(file_path)
-    extract('Invigilators')
+    extract('IC')
 
 
 
