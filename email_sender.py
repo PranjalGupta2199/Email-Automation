@@ -26,7 +26,7 @@ def create_message(sender, to, subject, message_text):
     message['to'] = to
     message['from'] = sender
     message['subject'] = subject
-    return {'raw': base64.urlsafe_b64encode(message.as_string().encode())}
+    return {'raw': base64.urlsafe_b64encode(message.as_string())}
 
 def create_message_with_attachment(
     sender, to, subject, message_text, file):
@@ -127,6 +127,9 @@ def send_mail(mail):
     attach = mail['file']
 
     #msg = create_message(sender, reciever, subject, msg_text)
-    msg = create_message_with_attachment(sender, reciever, subject, msg_text, attach) 
-    #print (type(msg))
-    send_message(service, "me", msg)
+    if (attach != None) : 
+        msg = create_message_with_attachment(sender, reciever, subject, msg_text, attach) 
+        try :
+        	send_message(service, "me", msg)
+       	except :
+       		print ('ERROR : ' + mail[reciever])

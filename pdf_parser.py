@@ -36,17 +36,19 @@ def extract(folderName) :
     totalFiles = len(os.listdir(mainPath))
 
     count = -1
-    for i in range (totalFiles) :
+    for i in range (5,totalFiles) :
         file = 'page-' + str(i) + '.pdf' 
         path = os.path.join(mainPath, file)
         txt = textract.process(path)
-        txt = txt.decode('utf-8')
 
+        txt = txt.decode('utf-8')
+        #print (txt)
         infile = PdfFileReader(open(path, 'rb'))
         if ("BIRLA" in txt) :
             count += 1
             try : 
                 if (count != 0) :
+
                     with open(os.path.join(savePath,fileName + '.pdf'), 'wb') as f :
                         outfile.write(f)
                 else :
@@ -54,7 +56,7 @@ def extract(folderName) :
             except :
                 os.remove(os.path.join(savePath,fileName + '.pdf'))
 
-            fileName = txt[txt.find('Ms.') + 4 : txt.find('\n', txt.find('Ms.'))]
+            fileName = txt[txt.find(':') + 2 : txt.find('\n', txt.find(':'))]
             outfile = PdfFileWriter()
             outfile.addPage(infile.getPage(0))
         else :
@@ -75,9 +77,9 @@ if __name__ == '__main__' :
         os.mkdir("Pages")
     except : 
         pass
-    file_path = os.path.join(os.getcwd(), 'pdf files/ic.pdf')
+    file_path = os.path.join(os.getcwd(), 'pdf files/invigilation.pdf')
     split_pdf(file_path)
-    extract('invigilators')
+    extract('Invig')
 
 
 
